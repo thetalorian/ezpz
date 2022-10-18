@@ -8,7 +8,7 @@ from .widgets.widget import Widget
 from .widgets.dot import Dot
 from .widgets.imagepane import ImagePane
 from .ezpzVector2 import Vector2
-from .contexts import Context
+from .contexts import Context, Anchor
 
 class Canvas(tk.Canvas):
     def __init__(self, container, width, height):
@@ -31,8 +31,8 @@ class Canvas(tk.Canvas):
 
     def __recalibrate(self, _):
         self.__container.update_idletasks()
-        self.__center = Vector2(self.winfo_width()/2, self.winfo_height()/2)
-        #print(f"Re-centering to: {self.__center}")
+        self.__canvassize = Vector2(self.winfo_width(), self.winfo_height())
+        self.__center = self.__canvassize / 2
         self._refresh()
 
     def __recenter(self, _):
@@ -65,8 +65,8 @@ class Canvas(tk.Canvas):
 
     def reset(self):
         self.clearItems()
-        self.__recenter("")
         self.__resize("")
+        self.__recenter("")
 
     def _refresh(self):
         self.delete('all')
@@ -93,19 +93,21 @@ class Canvas(tk.Canvas):
             return self.__scale
         return Vector2(100)
 
-    def toScreen(self, coord: Vector2, context: Context):
+    def toScreen(self, coord: Vector2, context: Context, anchor: Anchor = Anchor.C):
+        print(f"Given anchor {anchor}")
         if context == Context.WORLD:
-            return (coord - self.__offset.pos) * (self.__scale / 100) + self.__center
+            return (coord - self.__offset.pos) * (self.__scale / 100) + self.__center.shift(anchor)
         if context == Context.OVERLAY:
-            return coord + self.__center
+            return coord + self.__center.shift(anchor)
         return coord
 
-    def toContext(self, coord: Vector2, context: Context):
+    def toContext(self, coord: Vector2, context: Context, anchor: Anchor = Anchor.C):
         if context == Context.WORLD:
-            return ((coord - self.__center) / (self.__scale / 100.0)) + self.__offset.pos
+            return ((coord - self.__center.shift(anchor)) / (self.__scale / 100.0)) + self.__offset.pos
         if context == Context.OVERLAY:
-            return coord - self.__center
+            return coord - self.__center.shift(anchor)
         return coord
+
 
 
     def centerImage(self):

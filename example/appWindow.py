@@ -1,7 +1,8 @@
 import ezpz
+from ezpz.contexts import Anchor
 from ezpz.widgets import Thumbnail, ImagePane, Container
 from ezpz.layouts import Grid
-from ezpz import Context, Vector2
+from ezpz import Context, Vector2, Anchor
 from PIL import Image
 
 class AppWindow(ezpz.Window):
@@ -55,9 +56,9 @@ class AppWindow(ezpz.Window):
         imagepane = ImagePane('image', self._canvas)
         imagepane.setImage(image)
         self._canvas.addItem(imagepane)
-        returnbutton = ImagePane('goback', self._canvas, Context.OVERLAY)
+        returnbutton = ImagePane('goback', self._canvas, Context.OVERLAY, anchor=Anchor.NE)
         returnbutton.setImage(Image.open("cancel.png").resize((16,16)))
-        returnbutton.pos = Vector2(20, 20)
+        returnbutton.pos = Vector2(-20, 20)
         returnbutton.tag_bind('<ButtonPress-1>', self.closeImage)
         self._canvas.addItem(returnbutton)
 

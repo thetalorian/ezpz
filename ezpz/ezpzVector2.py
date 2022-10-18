@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Type
+from .contexts import Anchor
 
 @dataclass
 class Vector2:
@@ -46,6 +47,20 @@ class Vector2:
         else:
             return Vector2(self.x // other, self.y // other)
 
+    def shift(self, anchor: Anchor):
+        if anchor in [Anchor.NW, Anchor.W, Anchor.SW]:
+            h = 0
+        if anchor in [Anchor.N, Anchor.C, Anchor.S]:
+            h = 1
+        if anchor in [Anchor.NE, Anchor.E, Anchor.SE]:
+            h = 2
+        if anchor in [Anchor.NW, Anchor.N, Anchor.NE]:
+            v = 0
+        if anchor in [Anchor.W, Anchor.C, Anchor.E]:
+            v = 1
+        if anchor in [Anchor.SW, Anchor.S, Anchor.SE]:
+            v = 2
+        return Vector2(self.x * h, self.y * v)
 
     def clamp(self, _min, _max):
         self.x = max(min(self.x, _max), _min)

@@ -1,7 +1,7 @@
 from typing import Type
 from ..ezpzVector2 import Vector2
 from .coord import Coord
-from ..contexts import Context
+from ..contexts import Context, Anchor
 from .handle import Handle
 from ..layouts.free import Free
 
@@ -11,12 +11,14 @@ class Widget:
         id: str,
         canvas: Type['Canvas'],
         context: Context = Context.WORLD,
+        anchor: Anchor = Anchor.C
     ):
         self._id: str = id
         self._parent: Widget = ""
         self._canvas = canvas
         self._pos: Vector2 = Vector2(0)
         self._context: Context = context
+        self._anchor: Anchor = anchor
         self.__children = []
         self.layout = Free()
 
@@ -134,6 +136,10 @@ class Widget:
     @property
     def context(self):
         return self._context
+
+    @property
+    def anchor(self):
+        return self._anchor
 
     @property
     def id(self) -> str:

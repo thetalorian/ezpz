@@ -3,11 +3,11 @@ from PIL import Image, ImageTk
 
 from .widget import Widget
 from ..ezpzVector2 import Vector2
-from ..contexts import Context
+from ..contexts import Context, Anchor
 
 class ImagePane(Widget):
-    def __init__(self, id, canvas: Type['EZPZCanvas'], context: Context = Context.WORLD):
-        super().__init__(id, canvas, context)
+    def __init__(self, id, canvas: Type['EZPZCanvas'], context: Context = Context.WORLD, anchor: Anchor = Anchor.C):
+        super().__init__(id, canvas, context, anchor)
         self.__image = ""
         self.__scale = Vector2(1)
 
@@ -32,6 +32,6 @@ class ImagePane(Widget):
     def render(self):
         if not self.matchScale:
             self.rescale()
-        loc = self._canvas.toScreen(self._pos, self.context)
+        loc = self._canvas.toScreen(self._pos, self.context, self.anchor)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_image(x, y, image=self.__img, tags=self._id)
