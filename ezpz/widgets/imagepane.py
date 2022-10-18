@@ -17,7 +17,6 @@ class ImagePane(Widget):
         
 
     def setImage(self, image):
-        print("DDImage set Image")
         self.__image = image
         self.rescale()
 

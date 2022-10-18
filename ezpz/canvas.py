@@ -94,7 +94,6 @@ class Canvas(tk.Canvas):
         return Vector2(100)
 
     def toScreen(self, coord: Vector2, context: Context, anchor: Anchor = Anchor.C):
-        print(f"Given anchor {anchor}")
         if context == Context.WORLD:
             return (coord - self.__offset.pos) * (self.__scale / 100) + self.__center.shift(anchor)
         if context == Context.OVERLAY:
