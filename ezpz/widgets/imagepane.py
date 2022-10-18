@@ -35,3 +35,7 @@ class ImagePane(Widget):
         loc = self._canvas.toScreen(self._pos, self.context, self.anchor)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_image(x, y, image=self.__img, tags=self._id)
+
+    @property
+    def size(self) -> Vector2:
+        return Vector2(self.__img.width(), self.__img.height())
