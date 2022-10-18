@@ -33,11 +33,5 @@ class ImagePane(Widget):
         if not self.matchScale:
             self.rescale()
         loc = self._canvas.toScreen(self._pos, self.context)
-
-        # if self._context == Context.WORLD:
-        #     loc = self._canvas._worldToScreen(self._pos)
-        # else:
-        #     loc = self._pos
         (x, y) = (loc.x, loc.y)
         self._canvas.create_image(x, y, image=self.__img, tags=self._id)
-        #print(f"{self._id}: {self._id}")

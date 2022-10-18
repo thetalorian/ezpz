@@ -93,19 +93,12 @@ class Canvas(tk.Canvas):
             return self.__scale
         return Vector2(100)
 
-    def _worldToScreen(self, world: Vector2) -> Vector2:
-        return (world - self.__offset.pos) * (self.__scale / 100) + self.__center
-
-
     def toScreen(self, coord: Vector2, context: Context):
         if context == Context.WORLD:
             return (coord - self.__offset.pos) * (self.__scale / 100) + self.__center
         if context == Context.OVERLAY:
             return coord + self.__center
         return coord
-
-    def _screenToWorld(self, screen: Vector2) -> Vector2:
-        return ((screen - self.__center) / (self.__scale / 100.0)) + self.__offset.pos
 
     def toContext(self, coord: Vector2, context: Context):
         if context == Context.WORLD:

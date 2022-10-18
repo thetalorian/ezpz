@@ -10,10 +10,6 @@ class Dot(Widget):
         self.__color = color
 
     def render(self):
-        if self._screenLock:
-            loc = self._pos
-        else:
-            loc = self._canvas._worldToScreen(self._pos)
+        loc = self._canvas.toScreen(self._pos, self.context)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_oval(x -10, y - 10, x + 10, y + 10, fill=self.__color, tags=self._id)
-        #print(f"{self._id}: {self._id}")

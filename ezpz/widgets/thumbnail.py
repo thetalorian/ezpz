@@ -40,10 +40,7 @@ class Thumbnail(Widget):
         if not self.matchScale:
             self.rescale()
 
-        if self._context == Context.WORLD:
-            loc = self._canvas._worldToScreen(self.pos)
-        else:
-            loc = self.pos
+        loc = self._canvas.toScreen(self.pos, self.context)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_image(x, y, image=self.__img, tags=self._id)
         #print(f"{self._id}: {self._id}")
