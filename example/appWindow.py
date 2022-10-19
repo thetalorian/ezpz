@@ -1,10 +1,13 @@
+from example.dimensionWindow import DimensionWindow
 import ezpz
 from ezpz.contexts import Anchor
-from ezpz.widgets import Thumbnail, ImagePane, Container
+from ezpz.widgets import Thumbnail, ImagePane, Container, TKFrame
 from ezpz.layouts import Grid
 from ezpz import Context, Vector2, Anchor
 from PIL import Image
+import tkinter as tk
 
+from ezpz.widgets.label import Label
 class AppWindow(ezpz.Window):
     def __init__(self):
         super().__init__()
@@ -65,6 +68,46 @@ class AppWindow(ezpz.Window):
     def closeImage(self, _):
         self._canvas.reset()
         self.showThumbs()
+
+    def showFrameWindow(self):
+        self.frame = TKFrame('frame', self._canvas)
+
+        data = {}
+        data['width'] = 2.5
+        data['height'] = 3.5
+        data['depth'] = 1.5
+        data['units'] = "in"
+
+        self.dimensions = DimensionWindow(self, data)
+
+        self.frame.setFrame(self.dimensions)
+        self._canvas.addItem(self.frame)
+
+
+        acceptButton = ImagePane('acceptButton', self._canvas, Context.OVERLAY)
+        acceptButton.pos = Vector2(-20, 60)
+        acceptButton.setImage(Image.open("accept.png").resize((16,16)))
+        acceptButton.tag_bind('<ButtonPress-1>', self.dimensions.report)
+
+        cancelButton = ImagePane('cancelButton', self._canvas, Context.OVERLAY)
+        cancelButton.pos = Vector2(20, 60)
+        cancelButton.setImage(Image.open("cancel.png").resize((16,16)))
+        cancelButton.tag_bind('<ButtonPress-1>', self.closeEntryWindow)
+
+
+        self._canvas.addItem(acceptButton)
+        self._canvas.addItem(cancelButton)
+
+        label = Label('label', self._canvas)
+        label.setText("YEAAAAAAAAAAAAA")
+        label.setFont(size=30, face='Roboto', style='italic bold')
+        label.pos = Vector2(0, -100)
+        self._canvas.addItem(label)
+
+    def closeEntryWindow(self, _):
+        self._canvas.clearItems()
+        self.showThumbs()
+
 
 if __name__=="__main__":
     AppWindow()
