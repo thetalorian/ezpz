@@ -32,8 +32,8 @@ class Grid(Layout):
     def organize(self, pos, children):
         gridShape = self.__getGridShape(len(children))
         cellSize = self.__getCellSize(children)
-        widgetSize = cellSize * gridShape
-        offset = pos - (widgetSize / 2)
+        self._widgetSize = cellSize * gridShape
+        offset = Vector2(0) - (self._widgetSize / 2)
 
         cell = Vector2(0)
         for item in children:

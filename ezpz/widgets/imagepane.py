@@ -31,7 +31,7 @@ class ImagePane(Widget):
     def render(self):
         if not self.matchScale:
             self.rescale()
-        loc = self._canvas.toScreen(self._pos, self.context, self.anchor)
+        loc = self._canvas.toScreen(self.apos, self.context, self.anchor)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_image(x, y, image=self.__img, tags=self._id)
 

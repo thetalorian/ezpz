@@ -30,11 +30,10 @@ class Label(Widget):
             self.__font['style'] = style
 
     def render(self):
-        loc = self._canvas.toScreen(self._pos, self.context, self.anchor)
+        loc = self._canvas.toScreen(self.apos, self.context, self.anchor)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_text(x, y, text=self.__text, font=self.font,  tags=self._id)
 
     @property
     def size(self) -> Vector2:
-        return len(self.__text)
-        # NOTE: Not sure yet how to properly calculate size of text on screen.
+        return Vector2(len(self.__text) * self.__font['size'], self.__font['size'])

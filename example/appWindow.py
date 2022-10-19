@@ -2,7 +2,7 @@ from example.dimensionWindow import DimensionWindow
 import ezpz
 from ezpz.contexts import Anchor
 from ezpz.widgets import Thumbnail, ImagePane, Container, TKFrame
-from ezpz.layouts import Grid
+from ezpz.layouts import Grid, Column, Row
 from ezpz import Context, Vector2, Anchor
 from PIL import Image
 import tkinter as tk
@@ -80,29 +80,47 @@ class AppWindow(ezpz.Window):
 
         self.dimensions = DimensionWindow(self, data)
 
-        self.frame.setFrame(self.dimensions)
-        self._canvas.addItem(self.frame)
-
-
-        acceptButton = ImagePane('acceptButton', self._canvas, Context.OVERLAY)
-        acceptButton.pos = Vector2(-20, 60)
-        acceptButton.setImage(Image.open("accept.png").resize((16,16)))
-        acceptButton.tag_bind('<ButtonPress-1>', self.dimensions.report)
-
-        cancelButton = ImagePane('cancelButton', self._canvas, Context.OVERLAY)
-        cancelButton.pos = Vector2(20, 60)
-        cancelButton.setImage(Image.open("cancel.png").resize((16,16)))
-        cancelButton.tag_bind('<ButtonPress-1>', self.closeEntryWindow)
-
-
-        self._canvas.addItem(acceptButton)
-        self._canvas.addItem(cancelButton)
+        container = Container('container', self._canvas)
+        container.setLayout(Column())
 
         label = Label('label', self._canvas)
         label.setText("YEAAAAAAAAAAAAA")
         label.setFont(size=30, face='Roboto', style='italic bold')
-        label.pos = Vector2(0, -100)
-        self._canvas.addItem(label)
+        container.add(label)
+
+        label2 = Label('label', self._canvas)
+        label2.setText("BOIIIEEE")
+        label2.setFont(size=20, face='Roboto', style='bold')
+        container.add(label2)
+
+        label3 = Label('label', self._canvas)
+        label3.setText("Good Going!")
+        label3.setFont(size=35, face='Roboto')
+        container.add(label3)
+
+
+        self.frame.setFrame(self.dimensions)
+        container.add(self.frame)
+
+
+        buttons = Container('buttons', self._canvas)
+        buttons.setLayout(Row(padding=10))
+        acceptButton = ImagePane('acceptButton', self._canvas)
+        #acceptButton.pos = Vector2(-20, 60)
+        acceptButton.setImage(Image.open("accept.png").resize((16,16)))
+        acceptButton.tag_bind('<ButtonPress-1>', self.dimensions.report)
+
+        cancelButton = ImagePane('cancelButton', self._canvas)
+        #cancelButton.pos = Vector2(20, 60)
+        cancelButton.setImage(Image.open("cancel.png").resize((16,16)))
+        cancelButton.tag_bind('<ButtonPress-1>', self.closeEntryWindow)
+
+
+        buttons.add(acceptButton)
+        buttons.add(cancelButton)
+        container.add(buttons)
+
+        self._canvas.addItem(container)
 
     def closeEntryWindow(self, _):
         self._canvas.clearItems()

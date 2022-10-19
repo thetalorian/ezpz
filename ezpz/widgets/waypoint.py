@@ -22,6 +22,10 @@ class Waypoint(Widget):
         #self._canvas.bind("<ButtonPress-2>", lambda event, ref=self: self._canvas.__grabWidget(event, ref))
         #self._canvas.bind("<B2-Motion>", lambda event, ref=self: self._canvas.__dragWidget(event, ref))
 
+    @property
+    def apos(self):
+        return Vector2(0)
+
     # def activate(self, _):
     #     print(f"Activating {self._id}")
 

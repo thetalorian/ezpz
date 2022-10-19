@@ -169,3 +169,9 @@ class Widget:
 
     def __len__(self):
         return len(self.__children)
+
+    @property
+    def apos(self) -> Vector2:
+        if self._parent:
+            return self.pos + self._parent.apos
+        return self.pos

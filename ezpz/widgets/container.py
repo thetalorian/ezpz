@@ -17,4 +17,6 @@ class Container(Widget):
 
     @property
     def size(self) -> Vector2:
-        return Vector2(100, 100)
+        if self.layout:
+            return self.layout.size
+        return Vector2(0)

@@ -20,10 +20,15 @@ class TKFrame(Widget):
 
 
     def render(self):
-        loc = self._canvas.toScreen(self._pos, self.context, self.anchor)
+        loc = self._canvas.toScreen(self.apos, self.context, self.anchor)
         (x, y) = (loc.x, loc.y)
         self._canvas.create_window(x, y, window=self.__frame, tags=self._id)
 
     @property
     def size(self) -> Vector2:
+        #self._canvas.update_idletasks()
+        #return Vector2(self.__frame.winfo_width(), self.__frame.winfo_height())
+        return Vector2(100, 100)
+
+
         return Vector2(self.__img.width(), self.__img.height())
