@@ -20,6 +20,14 @@ class AppWindow(ezpz.Window):
         image = Image.open("test.jpg")
         icon = Image.open("open.png")
         icon = icon.resize((64, 64))
+
+        container = Container('container', self._canvas)
+        container.setLayout(Column())
+
+        label = Label('label', self._canvas)
+        label.setText("Hello There")
+        container.add(label)
+
         self.thumbnails = Container('thumbnails', self._canvas)
         self.thumbnails.setLayout(Grid())
 
@@ -34,13 +42,14 @@ class AppWindow(ezpz.Window):
             title = f"Thumb{x}"
             thumb = Thumbnail(title, self._canvas)
             thumb.setImage(image)
+            thumb.setText(title)
             #thumb.setCallback(self.openImage)
             thumb.tag_bind('<Double-ButtonPress-1>', self.openImage)
             #self._canvas.tag_bind(title, '<Double-ButtonPress-1>', thumb.activate)
             self.thumbnails.add(thumb)
 
-
-        self._canvas.addItem(self.thumbnails)
+        container.add(self.thumbnails)
+        self._canvas.addItem(container)
 
     def addNewThumb(self, _):
         print("Adding new thumbnail")

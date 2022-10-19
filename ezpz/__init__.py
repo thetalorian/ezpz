@@ -3,4 +3,4 @@ from .canvas import Canvas
 from .contexts import Context, Anchor
 from .ezpzVector2 import Vector2
 from .widgets import Container, Thumbnail, ImagePane, Dot, Label, TKFrame
-from .layouts import Grid
+from .layouts import Grid, Row, Column, Free

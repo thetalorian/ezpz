@@ -65,6 +65,11 @@ class Widget:
         self.__children.append(widget)
         widget.setParent(self)
         self.layout.organize(self._pos, self.__children)
+        if self._parent:
+            self._parent.refresh()
+
+    def refresh(self):
+        self.layout.organize(self._pos, self.__children)
 
     def clear(self):
         self.__children.clear()

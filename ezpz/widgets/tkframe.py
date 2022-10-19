@@ -9,6 +9,7 @@ class TKFrame(Widget):
     def __init__(self, id, canvas: Type['EZPZCanvas'], context: Context = Context.WORLD, anchor: Anchor = Anchor.C):
         super().__init__(id, canvas, context, anchor)
         self.__frame = ""
+        self.__size = Vector2(0)
 
     @property
     def matchScale(self) -> bool:
@@ -18,6 +19,9 @@ class TKFrame(Widget):
     def setFrame(self, frame):
         self.__frame = frame
 
+    def setSize(self, size):
+        # Allow user to override size settings until I can get actual widget size to calculate
+        self.__size = size
 
     def render(self):
         loc = self._canvas.toScreen(self.apos, self.context, self.anchor)
@@ -28,7 +32,7 @@ class TKFrame(Widget):
     def size(self) -> Vector2:
         #self._canvas.update_idletasks()
         #return Vector2(self.__frame.winfo_width(), self.__frame.winfo_height())
-        return Vector2(100, 100)
+        return self.__size
 
 
         return Vector2(self.__img.width(), self.__img.height())

@@ -7,8 +7,8 @@ class app:
         window = AppWindow()
         imgpath = "test.jpg"
         print("App base")
-        #window.showThumbs()
-        window.showFrameWindow()
+        window.showThumbs()
+        #window.showFrameWindow()
         #window.setImage(imgpath)
         window.start()
 
