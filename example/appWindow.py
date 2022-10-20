@@ -30,6 +30,7 @@ class AppWindow(ezpz.Window):
 
         self.thumbnails = Container('thumbnails', self._canvas)
         self.thumbnails.setLayout(Grid())
+        self.thumbnails.setUpdate(self.updateThumb)
 
         button = ImagePane(f"Button1", self._canvas)
         button.setImage(icon)
@@ -43,6 +44,7 @@ class AppWindow(ezpz.Window):
             thumb = Thumbnail(title, self._canvas)
             thumb.setImage(image)
             thumb.setText(title)
+            thumb.addHandle("1")
             #thumb.setCallback(self.openImage)
             thumb.tag_bind('<Double-ButtonPress-1>', self.openImage)
             #self._canvas.tag_bind(title, '<Double-ButtonPress-1>', thumb.activate)
@@ -50,6 +52,11 @@ class AppWindow(ezpz.Window):
 
         container.add(self.thumbnails)
         self._canvas.addItem(container)
+
+    def updateThumb(self, component, i1, i2):
+        print(f"Updating {component}, got indexes {i1} and {i2}")
+        component.moveBefore(i1, i2)
+        self._canvas._refresh()
 
     def addNewThumb(self, _):
         print("Adding new thumbnail")

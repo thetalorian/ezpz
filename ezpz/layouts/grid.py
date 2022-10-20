@@ -10,7 +10,8 @@ class Grid(Layout):
         super().__init__()
         self.__padding = padding
         self.__widgetSize = Vector2(0)
-        self.__offset = Vector2(0)
+        self.__gridShape = Vector2(0)
+        self.__cellSize = Vector2(0)
 
     def __getGridShape(self, count):
         rows = math.floor(math.sqrt(count))
@@ -26,27 +27,56 @@ class Grid(Layout):
                 size.h = item.size.h
         return size + self.__padding
 
-    def __getOffset(self):
-        self.__offset = self.pos - (self.__widgetSize / 2)
 
     def organize(self, pos, children):
-        gridShape = self.__getGridShape(len(children))
-        cellSize = self.__getCellSize(children)
-        self._widgetSize = cellSize * gridShape
+        self.__gridShape = self.__getGridShape(len(children))
+        self.__cellSize = self.__getCellSize(children)
+        self._widgetSize = self.__cellSize * self.__gridShape
         offset = Vector2(0) - (self._widgetSize / 2)
 
         cell = Vector2(0)
         for item in children:
-            loc = offset + (cell * cellSize) + (cellSize / 2)
+            loc = offset + (cell * self.__cellSize) + (self.__cellSize / 2)
             item.pos = loc
             cell.x += 1
-            if cell.x >= gridShape.x:
+            if cell.x >= self.__gridShape.x:
                 cell.x = 0
                 cell.y += 1
 
+    def indexByLoc(self, loc):
+        offset = Vector2(0) - (self._widgetSize / 2)
+        cell = Vector2(-1)
+        for i in range(0, self.__gridShape.x):
+            left = offset.x + self.__cellSize.x * i
+            right = offset.x + self.__cellSize.x * (i + 1)
+            if left < loc.x and loc.x <= right:
+                cell.x = i
+                break
 
-    def update(self, child, event):
-        print(f"Grid updating {child} with {event}")
+        for i in range(0, self.__gridShape.y):
+            top = offset.y + self.__cellSize.y * i
+            bottom = offset.y + self.__cellSize.y * (i + 1)
+            if top < loc.y <= bottom:
+                cell.y = i
+                break
+
+        if cell.x != -1 and cell.y != -1:
+            index = cell.x + cell.y * self.__gridShape.x
+        else:
+            index = -1
+
+        return index
+
+    # def update(self, child, loc):
+    #     print(f"Grid updating {child} with {loc}")
+    #     cell = self.getCellbyLoc(loc)
+    #     print(f"Found cell: {cell}")
+    #     if cell.x != -1 and cell.y != -1:
+    #         print("It's on the grid")
+    #         index = cell.x + cell.y * self.__gridShape.x
+    #         print(f"Updating item {child} with {index}")
+
+
         #index = self.__items.index(item)
         #print(f"Found index {index}")
         #self.organize()

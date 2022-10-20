@@ -37,7 +37,6 @@ class Handle():
         self._widget.canvas._refresh()
 
     def drop(self, event):
-        print(f"Dropping {self._widget._id}")
         self._widget.canvas.bind(f"<B{self._button}-Motion>", '')
         self._widget.canvas.bind(f"<ButtonRelease-{self._button}>", '')
         self._widget.update(event)

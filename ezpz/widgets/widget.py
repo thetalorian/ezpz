@@ -1,3 +1,4 @@
+from operator import indexOf
 from typing import Type
 from ..ezpzVector2 import Vector2
 from .coord import Coord
@@ -21,6 +22,7 @@ class Widget:
         self._anchor: Anchor = anchor
         self.__children = []
         self.layout = Free()
+        self.__update = ""
 
         # Ok, that was actually a big mistake.
         # I'm conflating self.layout to mean both the layout assigned to this widget,
@@ -54,8 +56,10 @@ class Widget:
     def tag_bind(self, key: str, callback):
         self._canvas.tag_bind(self._id, key, callback)
 
+    def setUpdate(self, callback):
+        self.__update = callback
+
     def setLayout(self, layout):
-        print(f"Setting layout to {layout}")
         self.layout = layout
 
     def setParent(self, widget):
@@ -75,17 +79,25 @@ class Widget:
         self.__children.clear()
 
     def update(self, event):
-        print(f"Trying to update {self}")
         if self._parent:
-            self._parent.updateChild(self, event)
-        print(f"Updating item {self._id}")
-        pass
-
-    def updateChild(self, child, event):
-        print(f"{self} updating child {child}")
-        self.layout.update(child, event)
-        self.layout.organize(self._pos, self.__children)
+            print(f"Updating {self._id}")
+            self._parent.childUpdated(self, event)
         self._canvas._refresh()
+
+    def childUpdated(self, child, event):
+        print(f"Updating child for {self._id}")
+        if self.__update:
+            print(f"I've got a method...")
+            loc = self._canvas.toContext(Vector2(event.x, event.y), self._context)
+            i1 = self.__children.index(child)
+            i2 = self.layout.indexByLoc(loc)
+            self.__update(self, i1, i2)
+        self.refresh()
+
+    def moveBefore(self, i1, i2):
+        mover = self.__children.pop(i1)
+        t = i2 if i2 <= i1 else i2 - 1
+        self.__children.insert(t, mover)
 
     def render(self):
         for item in self.__children:

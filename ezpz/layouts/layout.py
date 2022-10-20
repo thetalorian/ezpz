@@ -10,8 +10,8 @@ class Layout(ABC):
     def organize(self, position: Type['Vector2'], items: List):
         pass
 
-    def update(self, child, event):
-        pass
+    def indexByLoc(loc):
+        return -1
 
     @property
     def size(self):

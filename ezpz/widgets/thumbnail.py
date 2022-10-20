@@ -17,7 +17,7 @@ class Thumbnail(Widget):
         self.__font['style'] = "bold"
         self.__scale = Vector2(100)
         self.__textpadding = 5
-        self.addHandle("1")
+        #self.addHandle("1")
 
     @property
     def matchScale(self) -> bool:
