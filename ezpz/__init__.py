@@ -2,5 +2,5 @@ from .window import Window
 from .canvas import Canvas
 from .contexts import Context, Anchor
 from .ezpzVector2 import Vector2
-from .widgets import Container, Thumbnail, ImagePane, Dot, Label, TKFrame
+from .widgets import Container, Thumbnail, ImagePane, Dot, Label, TKFrame, Linker
 from .layouts import Grid, Row, Column, Free

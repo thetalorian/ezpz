@@ -14,7 +14,7 @@ class ImagePane(Widget):
     @property
     def matchScale(self) -> bool:
         return self.__scale == self._canvas.getScale(self.context)
-        
+
 
     def setImage(self, image):
         self.__image = image
@@ -27,7 +27,8 @@ class ImagePane(Widget):
         #print(f"Size: ({w}, {h}) Scaled: {scaled}")
         resized = self.__image.resize((int(scaled.x), int(scaled.y)))
         self.__img = ImageTk.PhotoImage(resized)
-        
+
+
     def render(self):
         if self.__image:
             if not self.matchScale:

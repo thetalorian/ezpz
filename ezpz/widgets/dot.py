@@ -1,9 +1,10 @@
 from typing import Type
 from .widget import Widget
+from ..contexts import Context, Anchor
 
 class Dot(Widget):
-    def __init__(self, id, canvas: Type['EZPZCanvas'], screenLock=False):
-        super().__init__(id, canvas, invert = False, screenLock=screenLock)
+    def __init__(self, id, canvas: Type['EZPZCanvas'], context: Context = Context.WORLD, anchor: Anchor = Anchor.C):
+        super().__init__(id, canvas, context, anchor)
         self.__color = "#000000"
 
     def setColor(self, color):

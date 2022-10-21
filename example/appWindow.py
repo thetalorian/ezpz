@@ -1,7 +1,7 @@
 from example.dimensionWindow import DimensionWindow
 import ezpz
 from ezpz.contexts import Anchor
-from ezpz.widgets import Thumbnail, ImagePane, Container, TKFrame
+from ezpz.widgets import Thumbnail, ImagePane, Container, TKFrame, Dot, Linker
 from ezpz.layouts import Grid, Column, Row
 from ezpz import Context, Vector2, Anchor
 from PIL import Image
@@ -15,6 +15,36 @@ class AppWindow(ezpz.Window):
     def setImage(self, path):
         print(f"AppWindow setting image path: {path}")
         self._canvas.setImage(Image.open(path))
+
+    def showDots(self):
+
+        links = Linker('link', self._canvas)
+        links.setColor('#444488')
+        dot1 = Dot('d1', self._canvas)
+        dot1.pos = Vector2(-100, -100)
+        dot1.addHandle("1")
+        links.add(dot1)
+
+        dot2 = Dot('d2', self._canvas)
+        dot2.pos = Vector2(100, -100)
+        dot2.addHandle("1")
+        links.add(dot2)
+
+        dot3 = Dot('d3', self._canvas)
+        dot3.pos = Vector2(100, 100)
+        dot3.addHandle("1")
+        links.add(dot3)
+
+        dot4 = Dot('d4', self._canvas)
+        dot4.pos = Vector2(-100, 100)
+        dot4.addHandle("1")
+        links.add(dot4)
+
+        links.setUpdate(self.showPoints)
+        self._canvas.addItem(links)
+
+    def showPoints(self, points):
+        print(f"Got points: {points}")
 
     def showThumbs(self):
         image = Image.open("test.jpg")

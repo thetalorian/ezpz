@@ -45,7 +45,13 @@ class Widget:
         # There are still cross references, we would need to assign each widget's parent as we
         # add the widget to the parent's list, which is a bit ugly, but at least we aren't trying
         # to do the same for the layouts.
+    @property
+    def children(self):
+        return self.__children
 
+    @property
+    def updatecall(self):
+        return self.__update
 
     def addHandle(self, button: str, invert: bool=False):
         self._handle = Handle(self, button, invert)
