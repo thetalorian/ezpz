@@ -37,6 +37,7 @@ class Label(Widget):
             self.__font['face'] = face
         if size:
             self.__font['size'] = size
+            self.__font['scaled'] = int(size * (self.__scale.x / 100))
         if style:
             self.__font['style'] = style
 

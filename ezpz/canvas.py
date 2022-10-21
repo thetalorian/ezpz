@@ -107,6 +107,21 @@ class Canvas(tk.Canvas):
             return coord - self.__center.shift(anchor)
         return coord
 
+    def focusWidget(self, widget, border=60):
+        print(f"Focusing on widget {widget}")
+        wsize = widget.size
+        windowsize = self.__canvassize - border
+        print(f"Window size: {windowsize} Widget size: {wsize}")
+
+        rx = int((windowsize.x / wsize.x) * 100)
+        ry = int((windowsize.y / wsize.y) * 100)
+
+        print(f"Got ratios: {rx} {ry}")
+        self.__scale = Vector2(min(rx, ry))
+        self.__scale.clamp(5, 400)
+        print(f"Setting scale {self.__scale}")
+        self.__recenter("")
+
 
 
     def centerImage(self):
