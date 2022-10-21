@@ -86,14 +86,11 @@ class Widget:
 
     def update(self, event):
         if self._parent:
-            print(f"Updating {self._id}")
             self._parent.childUpdated(self, event)
         self._canvas._refresh()
 
     def childUpdated(self, child, event):
-        print(f"Updating child for {self._id}")
         if self.__update:
-            print(f"I've got a method...")
             loc = self._canvas.toContext(Vector2(event.x, event.y), self._context)
             i1 = self.__children.index(child)
             i2 = self.layout.indexByLoc(loc)

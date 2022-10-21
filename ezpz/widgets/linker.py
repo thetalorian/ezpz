@@ -20,17 +20,15 @@ class Linker(Widget):
             cloc = self._canvas.toScreen(child.apos, child.context, child.anchor)
             polygon.append(cloc.x)
             polygon.append(cloc.y)
-
-        self._canvas.create_polygon(polygon, outline=self.__color, fill='', width=2)
+        if polygon:
+            self._canvas.create_polygon(polygon, outline=self.__color, fill='', width=2)
         super().render()
 
     def childUpdated(self, child, event):
-        print(f"Updating child for {self._id}")
         if self.updatecall:
-            print(f"I've got a method...")
             points = []
             for child in self.children:
-                points.append([child.pos.x, child.pos.y])
+                points.append([int(child.pos.x), int(child.pos.y)])
             self.updatecall(points)
         self.refresh()
 
