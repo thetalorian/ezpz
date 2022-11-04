@@ -39,3 +39,49 @@ Thumbnail widget - no layout manager
 The thumbnail's coordinates are relative to the window, and the window's coordinates are relative to the canvas (world space), and the canvas coordinates are relative to the screen. So, if we click on the screen and get screen space coordinates sent to the thumbnail we can calculate it's context coordinates by translating from screen to world and then from world to window. So the converted version would always be to call the equivalent of the screen to world function for the parent. Just like in reverse calling world to screen. Except in this case we don't call against the canvas directly, it's always the parent. And the first thing the parent does is to call the same conversion for its parent, which then does the same, so each level gets its own coordinate system.
 
 The recursive calls would end when they get to the root widget, which would just do the actual screen to world calculations it does now, instead of having that happen on the canvas. 
+
+
+
+Ok, more thoughts on widget design. At the moment the types of widgets I'm creating are starting to get a bit out of hand, and it seems like most if not all of them have common connections and features. If these features were a part of the base widget it would be far easier to customize and extend. So maybe it's time to rework things a bit.
+
+
+Features that all widgets seem to want to at least have as options:
+
+labels - It seems like a really good idea to be able to apply a label to each widget. That label should probably be able to be repositioned either over the widget or around it.
+
+Images - Adding an image to a widget is really helpful. In the case of the thumbnails and now the box image widget we need to be able to set the render size of the image independent of the actual image size and the scale of the scene.
+
+Rotation - box widget needs to be rotateable, could be helpful in other scenarios. It would allow us to set the widget size unrotated but have the rendering adjust.
+
+Borders - The box image widget has a border, arguably we could just make that a normal feature as well, could be helpful with the thumbnails.
+
+Anchors - We already have an anchor set, but that only indicates where our origin is with the parent. For more render control we would actually want the anchor to adjust the rendering. We always render with the widget's position being in the center, but it would be helpful to shift the rendering as well. Not sure whether we use a different anchor for that, or try to use the same one.
+
+Also, layouts and sizes need to be beefed up and refactored so that we are properly adjusting for anchor positions on relative positions. And ideally the entire context system needs revamping as it doesn't make sense for individual items to be added to parents with different contexts. Instead we should have the contexts be layers with settings, so we could have a world context that shifts based on its offset value and scale, and an overlay that does neither, and all items are added to one or the other. In these cases the widgets themselves do not have a context, only the layer does. That makes creating them easier, and also gives us a way to have more control over render order, because we can always render all world objects before rendering any of the overlay objects.
+
+
+
+So, let's recap, I guess:
+
+We need a window to hold the canvas
+
+We need one (or more) canvases. Originally the canvas was extended with the drag and drop and pan and zoom functionality, but maybe that's not the right approach. With the addition of layers it seems like most of that moves to the layers.
+
+Each layer would have its own scale and offset, with the option to have those layers offsets and scales bound to controls. So really each canvas would just need a list of layers and would render the layers in order.
+
+So then each layer is also kind of a widget, I guess.
+
+So, maybe we really don't need to get crazy? Maybe we really do just have each child render its content based on its anchor in relative position to its parent.
+
+So, if the layer has an anchor at center, it gets screen shifted to place that position at the middle of the canvas.
+
+If we add a widget to that with a center anchor it also gets rendered at 0,0. Let's say it's an image that is 200 x 200.
+
+Then we add a widget to that, with an anchor in the lower left, still with no offset. It renders at 0,0 relative to the lower left corner of the parent, which is currently at -100, 100 on the layer, shifted off by whatever the offset for the layer is. I guess if we link the layer size to the canvas size we can keep the anchors even on the technically endless screen. We can reset the size of the layer according to the canvas.
+
+
+So let's see. At that point the process to render everything would be:
+
+for each layer in List[layers]
+    for each widget in list[widgets]
+      for each widget in widget children

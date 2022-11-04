@@ -1,4 +1,4 @@
-from example.dimensionWindow import DimensionWindow
+from dimensionWindow import DimensionWindow
 import ezpz
 from ezpz.contexts import Anchor
 from ezpz.widgets import Thumbnail, ImagePane, Container, TKFrame, Dot, Linker
@@ -6,6 +6,7 @@ from ezpz.layouts import Grid, Column, Row
 from ezpz import Context, Vector2, Anchor
 from PIL import Image
 import tkinter as tk
+from ezpz.widgets.boximage import BoxImage
 
 from ezpz.widgets.label import Label
 class AppWindow(ezpz.Window):
@@ -42,6 +43,18 @@ class AppWindow(ezpz.Window):
 
         links.setUpdate(self.showPoints)
         self._canvas.addItem(links)
+
+        image = Image.open("test.jpg")
+        boxy = BoxImage('box', self._canvas)
+        #boxy.setImage(image)
+        boxy.setText('Panel')
+        boxy.boxSize = Vector2(200, 100)
+        boxy.rotation = 180
+        boxy.pos = Vector2(100, 100)
+        self._canvas.addItem(boxy)
+
+
+
 
     def showPoints(self, points):
         print(f"Got points: {points}")

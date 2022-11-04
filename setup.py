@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def readme():
     with open('README.md') as f:
@@ -20,7 +20,7 @@ setup(name='ezpz',
     author='Samuel Plum',
     author_email='splum@taloria.com',
     license='MIT',
-    packages=['ezpz'],
+    packages=find_packages(),
     install_requires=[
         'tk',
     ],

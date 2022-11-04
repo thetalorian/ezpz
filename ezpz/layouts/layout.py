@@ -4,7 +4,7 @@ from ..ezpzVector2 import Vector2
 
 class Layout(ABC):
     def __init__(self):
-        self._widgetSize = Vector2(0)
+        self._widgetSize = Vector2(800)
 
     @abstractmethod
     def organize(self, position: Type['Vector2'], items: List):

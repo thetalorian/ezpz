@@ -18,4 +18,4 @@ class Container(Widget):
     def size(self) -> Vector2:
         if self.layout:
             return self.layout.size
-        return Vector2(0)
+        return Vector2(800)

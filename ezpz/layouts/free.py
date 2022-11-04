@@ -11,3 +11,7 @@ class Free(Layout):
 
     def organize(self, position: Type['Vector2'], items: List):
         return super().organize(position, items)
+
+    @property
+    def size(self):
+        return Vector2(2000)

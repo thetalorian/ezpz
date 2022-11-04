@@ -6,7 +6,7 @@ from .canvas import Canvas
 class Window(tk.Tk):
     def __init__(self):
         super().__init__()
-        self._canvas = Canvas(self, width=500, height=500)
+        self._canvas = Canvas(self, width=1000, height=1000)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)

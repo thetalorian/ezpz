@@ -73,7 +73,9 @@ class Thumbnail(Widget):
 
     @property
     def size(self) -> Vector2:
-        (width, height) = self.__image.size
+        #(width, height) = self.__image.size
+        width = 110
+        height = 110
         if self.__text:
             height += self.__font['size'] + self.__textpadding
         return Vector2(width, height)
